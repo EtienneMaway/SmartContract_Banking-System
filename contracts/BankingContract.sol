@@ -37,15 +37,13 @@ contract BankingContract {
   }
 
   // The owner can transfer the ownership by calling this function
-  function setContractOwner(address _newOwner) public onlyOwnner {
-    require(msg.sender == contractOwner, "You must be the contract owner");
-
+  function setContractOwner(address _newOwner) external onlyOwnner {
     // updating the new owner of the contract
     contractOwner = _newOwner;
   }
 
   // User creating a new account
-  function createAccout() public {
+  function createAccout() external {
     // account number
     accountsCounter++;
 
@@ -64,7 +62,7 @@ contract BankingContract {
   }
 
   // Depositing ether in the created account
-  function deposit(uint256 _accountNumber, uint256 _amount) public payable {
+  function deposit(uint256 _accountNumber, uint256 _amount) external {
     // Amount should not be an invalid number
     require(_amount > 0, 'Amount lesser or equal to 0');
 
@@ -76,16 +74,13 @@ contract BankingContract {
   }
 
   // function to help fetch the account balance
-  function getAccountBalance(uint256 _accountNumber) public view returns(uint256){
-    // Only you(owner of the account) can view your account balance
-    require(msg.sender == accounts[_accountNumber].owner, "you are not the account owner");
-
+  function getAccountBalance(uint256 _accountNumber) external view returns(uint256){
     // Retrieving the account balance
     return accounts[_accountNumber].balance;
   }
 
   // Function to help withdraw the deposited ether
-  function withdraw(uint256 _accountNumber, uint256 _amount) public {
+  function withdraw(uint256 _accountNumber, uint256 _amount) external {
     // You can not withdraw from someone else's account
     require(msg.sender == accounts[_accountNumber].owner, 'You can withdraw only from the account you own');
 
@@ -97,7 +92,7 @@ contract BankingContract {
   }
 
   // Function helping to tranfer funds withing the banking system
-  function transferFunds(uint256 _fromAccountNumber, uint256 _toAccountNumber, uint256 _amount) public {
+  function transferFunds(uint256 _fromAccountNumber, uint256 _toAccountNumber, uint256 _amount) external {
     // check if the amount is invalid
     require(_amount > 0, "amount must be greater than zero");
 
